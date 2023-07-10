@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!-- 是否启用缓存 -->
+        <setting name="cacheEnabled" value="true" />
+        <!-- 是否启用延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- [当对象使用延迟加载时 属性的加载取决于能被引用到的那些延迟属性,否则,按需加载(需要的是时候才去加载)] - -->
+        <setting name="aggressiveLazyLoading" value="true"/>
+        <!-- 允许JDBC支持生成的建，需要适合驱动 -->
+        <setting name="useGeneratedKeys" value="true" />
+        <!-- 默认执行器，默认SIMPLE无特别之处；REUSE重用预处理语句；BATCH重用语句和批量更新 -->
+        <setting name="defaultExecutorType" value="REUSE" />
+        <!-- 设置等待一个数据库的响应时间 -->
+        <setting name="defaultStatementTimeout" value="25000"/>
+
+
+        <!--输出select 等调试语句-->
+        <setting name="logImpl" value="LOG4J"/>
+
+    </settings>
+
+
+    <!--
+        plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下:
+        properties?, settings?,
+        typeAliases?, typeHandlers?,
+        objectFactory?,objectWrapperFactory?,
+        plugins?,
+        environments?, databaseIdProvider?, mappers?
+    -->
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+
+
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+            <!-- 和startPage中的pageNum效果一样-->
+            <!--
+            <property name="offsetAsPageNum" value="true"/>
+            -->
+
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+            <!--
+            <property name="rowBoundsWithCount" value="true"/>
+            -->
+
+            <!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+            <!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型）-->
+            <!--
+            <property name="pageSizeZero" value="true"/>
+            -->
+
+            <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+            <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+            <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+            <!--
+            <property name="reasonable" value="true"/>
+            -->
+
+
+            <!-- 3.5.0版本可用 - 为了支持startPage(Object params)方法 -->
+            <!-- 增加了一个`params`参数来配置参数映射，用于从Map或ServletRequest中取值 -->
+            <!-- 可以配置pageNum,pageSize,count,pageSizeZero,reasonable,不配置映射的用默认值 -->
+            <!-- 不理解该含义的前提下，不要随便复制该配置 -->
+            <!--
+            <property name="params" value="pageNum=start;pageSize=limit;"/>
+            -->
+        </plugin>
+    </plugins>
+</configuration>
